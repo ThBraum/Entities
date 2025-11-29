@@ -1,0 +1,58 @@
+# Build output
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+# The packages folder can be ignored because of PackageReference
+**/packages/
+
+# Logs
+*.log
+logs/
+
+# dotenv
+.env
+.env.*
+
+# Runtime files
+*.pid
+*.seed
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Test results
+TestResults/
+
+# Docker
+docker-compose.override.yml
+**/docker-compose.override.yml
+
+# Ignore publish output
+publish/
+
+# Visual Studio Code workspace storage
+.history/
