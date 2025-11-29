@@ -5,7 +5,7 @@ using Entidades.DTOs;
 namespace Entidades.Controllers.Api
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/teams")]
     public class TeamsApiController : ControllerBase
     {
         private readonly ITeamService _service;

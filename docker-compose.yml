@@ -25,6 +25,8 @@ services:
     environment:
       - SampleDbConnection=User ID=dev_user;Password=dev_password;Host=db;Port=5432;Database=SampleDb;Pooling=true;
       - ASPNETCORE_ENVIRONMENT=Development
+      - DB_HOST=db
+      - DB_PORT=5432
     restart: on-failure
 
 volumes:

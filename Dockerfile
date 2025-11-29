@@ -15,4 +15,7 @@ COPY --from=build /app/publish ./
 ENV ASPNETCORE_URLS="http://+:80"
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "Entidades.dll"]
+COPY wait-for-db.sh ./
+RUN chmod +x ./wait-for-db.sh
+
+ENTRYPOINT ["/bin/bash", "-c", "./wait-for-db.sh"]

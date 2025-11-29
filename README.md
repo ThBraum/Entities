@@ -10,7 +10,7 @@ Como executar com Docker Compose:
 docker compose up --build
 ```
 
-2. A aplicação web ficará disponível em `http://localhost:5000`.
+2. A aplicação web ficará disponível em `http://localhost:5001` (mapeamento `5001:80`).
 
 - Endpoints API principais:
   - `GET /api/teams`
@@ -25,7 +25,21 @@ docker compose up --build
   - `PUT /api/drivers/{id}`
   - `DELETE /api/drivers/{id}`
 
-Notas:
-- O `SampleDbConnection` é injetado via variável de ambiente no `docker-compose.yml` e aponta para o host `db` (nome do serviço Postgres no Compose).
-- O app aplica migrações automaticamente ao iniciar (chamada `db.Database.Migrate()` em `Program.cs`).
-- Se quiser conectar a um PostgreSQL local em vez do Compose, atualize `appsettings.json` ou forneça a variável de ambiente `SampleDbConnection`.
+Notas importantes:
+- **Variáveis de ambiente**: o `SampleDbConnection` é injetado via `docker-compose.yml` e aponta para o host `db` (nome do serviço Postgres no Compose). O `web` também define `DB_HOST` e `DB_PORT` usados pelo script de inicialização.
+- **Espera do DB**: o contêiner `web` inclui um script `wait-for-db.sh` que aguarda o Postgres estar aceitando conexões antes de iniciar a aplicação. Isso evita que a aplicação tente aplicar migrações antes do banco estar pronto.
+- **Migrações**: o app tentará aplicar migrações automaticamente em startup (`db.Database.Migrate()`); em caso de falha o processo pode usar `EnsureCreated()` como fallback. Para forçar aplicação manual de migrações (opcional):
+
+```bash
+# executar a partir do host, usando a cadeia de conexão do docker-compose
+dotnet ef database update --connection "Host=localhost;Port=5432;Database=SampleDb;Username=dev_user;Password=dev_password"
+```
+
+- **Reset do banco (dev)**: para recriar um banco limpo e reaplicar tudo do zero (apaga dados), rode:
+
+```bash
+docker compose down -v && docker compose up --build
+```
+
+- **Conectar localmente**: se preferir usar um Postgres local, ajuste `SampleDbConnection` em `appsettings.json` ou passe a variável de ambiente apropriada ao rodar o container.
+

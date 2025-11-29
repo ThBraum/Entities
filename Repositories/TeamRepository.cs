@@ -10,7 +10,7 @@ namespace Entidades.Repositories
         private readonly ApiDbContext _db;
         public TeamRepository(ApiDbContext db) => _db = db;
 
-        public async Task<List<Team>> GetAllAsync() => await _db.Teams.AsNoTracking().ToListAsync();
+        public async Task<List<Team>> GetAllAsync() => await _db.Teams.Include(t => t.Drivers).AsNoTracking().ToListAsync();
 
         public async Task<Team?> GetByIdAsync(int id) => await _db.Teams.Include(t => t.Drivers).FirstOrDefaultAsync(t => t.Id == id);
 
